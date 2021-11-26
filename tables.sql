@@ -39,7 +39,7 @@ create table sentimientos_post_uso(
 	nostalgico boolean not null,
 	celoso boolean not null,
 	amenazado boolean not null
-)
+);
 create table uso_stalkeo(
 	id_uso_stalkeo numeric(4) primary key,
 	escuela boolean not null,

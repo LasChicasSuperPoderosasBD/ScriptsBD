@@ -1,4 +1,4 @@
-INSERT INTO public.frecuencia_uso (id_frecuencia_uso,redes_sociales,compras_online,streaming) VALUES
+INSERT INTO frecuencia_uso (id_frecuencia_uso,redes_sociales,compras_online,streaming) VALUES
 	 (1,'Muy frecuente','Muy frecuente','Ni mucho ni poco frecuente'),
 	 (2,'Poco frecuente','Poco frecuente','Poco frecuente');
 INSERT INTO public.seguridad (id_seguridad,sentimiento_proteccion,conocimiento_ciberseg,conocimiento_vigilancia,conocimiento_leyes,informacion_sensible) VALUES

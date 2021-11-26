@@ -1,7 +1,15 @@
 drop table redes_sociales;
 drop table conclusion;
-drop table encuestado;
 drop table seguridad;
 drop table compras_online;
+drop table tipo_compras;
+drop table encuestado;
+drop table dispositivos;
 drop table confianza_paginas;
 drop table frecuencia_uso;
+drop table informacion_sensible;
+drop table forma_pago;
+drop table sentimientos_post_uso;
+drop table uso_stalkeo;
+drop table contenido_compartido;
+drop table redes_uso;

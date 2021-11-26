@@ -1,7 +1,15 @@
 delete from redes_sociales;
 delete from conclusion;
-delete from encuestado;
 delete from seguridad;
 delete from compras_online;
+delete from tipo_compras;
+delete from encuestado;
+delete from dispositivos;
 delete from confianza_paginas;
 delete from frecuencia_uso;
+delete from informacion_sensible;
+delete from forma_pago;
+delete from sentimientos_post_uso;
+delete from uso_stalkeo;
+delete from contenido_compartido;
+delete from redes_uso;
