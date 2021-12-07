@@ -58,7 +58,7 @@ create view vista_6 as select rs.contenido_observado as ver_sin_ser_visto, count
 from redes_sociales rs 
 group by rs.contenido_observado; 
 ### Explicación y respuesta:
-Esta es la vista más sencilla y solo busca saber cuántas personas quisieran ver contenido en línea sin ser vigilados podr nadie.
+Esta es la vista más sencilla y solo busca saber cuántas personas quisieran ver contenido en línea sin ser vigilados por nadie.
 
 ## View 7: Moralidad
 ### Código:
