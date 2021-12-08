@@ -81,13 +81,13 @@ from uso_stalkeo us
 group by us.nunca ;
 
 --tiempo en redes por género
-create view pendeWaka as 
+create view vista_extra_1 as 
 select e.genero , rs.tiempo_redes , count(e.genero) 
 from encuestado e join redes_sociales rs on rs.id_encuestado = e.id_encuestado 
 group by e.genero , rs.tiempo_redes ;
 
 --frecuencia de compras por género
-create view tablaSara as 
+create view vista_extra_2 as 
 select e.genero ,co.frecuencia_compras  , count(e.genero) 
 from encuestado e join compras_online co on co.id_encuestado = e.id_encuestado 
 where not co.frecuencia_compras = '-'
