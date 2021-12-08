@@ -2,24 +2,36 @@
 # Documentación Scripts de Vistas
 
 ## View 1: Sentimiento de seguridad al navegar por internet 
-### Código:
-create view vista_1 as select s.conocimiento_leyes as leyes , s.sentimiento_proteccion as sentimiento, rs.herramientas_privacidad ,count(s.conocimiento_leyes)
+### Código 1:
+create view vista_1_herramientas as select s.sentimiento_proteccion as sentimiento, rs.herramientas_privacidad , count(s.sentimiento_proteccion) 
 from seguridad s join redes_sociales rs on rs.id_encuestado = s.id_encuestado 
-group by s.conocimiento_leyes , s.sentimiento_proteccion, rs.herramientas_privacidad;
+group by s.sentimiento_proteccion, rs.herramientas_privacidad;
 ### Explicación:
-Intersectamos el conocimiento sobre las leyes que protegen la navegación por internet con el conocimiento sobre las herramientas de privacidad en redes sociales junto al sentimiento de protección que experimentan los encuestados al navegar por internet.
+Intersectamos el sentimiento de protección del usuario con su conocimiento sobre las herramientas existentes enfocadas a la privacidad en redes sociales. 
+### Código 2:
+create view vista_1_leyes as select s.conocimiento_leyes as leyes , s.sentimiento_proteccion as sentimiento ,count(s.sentimiento_proteccion) 
+from seguridad s 
+group by s.conocimiento_leyes , s.sentimiento_proteccion;
+### Explicación:
+Intersectamos el conocimiento sobre las leyes que protegen la navegación por internet con el sentimiento de protección que experimentan los encuestados al navegar por internet.
 ### Respuesta a...
-Esta vista nos muestra una historia acerca de cómo las personas podrían no sentirse protegidas al navegar por internet a la vez que intentamos entender si esto se debe a que no conocen las configuraciones de privacidad en las aplicaciones que usan ni las leyes existentes que los protegen al navegar por internet y otorgar sus datos personales a terceros.
+Estas vistas nos muestran una historia acerca de cómo las personas podrían no sentirse protegidas al navegar por internet a la vez que intentamos entender si esto se debe a que no conocen las configuraciones de privacidad en las aplicaciones que usan ni las leyes existentes que los protegen al navegar por internet y otorgar sus datos personales a terceros.
 
 ## View 2: Actitudes inicio vs Actitudes finales
-### Código:
-create view vista_2 as select e.actitud_ciberseg as actitud_inicio, c.actitud_ciberseg as actitud_final , count(c.actitud_ciberseg) 
-from encuestado e join conclusion c on e.id_encuestado = c.id_encuestado 
-group by e.actitud_ciberseg, c.actitud_ciberseg;
+### Código 1:
+create view vista_2_antes as select e.actitud_ciberseg as actitud_inicio, count(e.actitud_ciberseg) 
+from encuestado e
+group by e.actitud_ciberseg;
 ### Explicación:
-Observamos las parejas de actitudes que registraron los encuestados al inicio y al final de la encuesta.
+Esta tabla nos muestra la actitud en la red de los ecuenstados al principio de la evaluación.
+### Código 2:
+create view vista_2_despues as select c.actitud_ciberseg as actitud_final , count(c.actitud_ciberseg) 
+from conclusion c  
+group by c.actitud_ciberseg;
+### Explicación:
+Esta tabla nos muestra la actitud en la red de los ecuenstados al final de la evaluación.
 ### Respuesta a...
-Esta vista nos permite saber si la actitud del encuestado frente a los problemas de ciberseguridad cambió luegode responder la encuesta.
+Estas vistas nos permiten saber si la actitud del encuestado frente a los problemas de ciberseguridad cambió luego de responder la encuesta.
 
 ## View 3: Eficiencia vs Privacidad
 ### Código:
