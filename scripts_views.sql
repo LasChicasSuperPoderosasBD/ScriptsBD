@@ -28,20 +28,10 @@ from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co
 where fp.credito = true or fp.debito = true
 group by cp.datos_bancarios ;
 
-create view vista_4_complemento_1 as select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
-from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
-where (fp.credito = true or fp.debito = true) and cp.datos_bancarios = 'Confío'
-group by cp.datos_bancarios , co.frecuencia_compras ;
-
-create view vista_4_complemento_2 as select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
-from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
-where (fp.credito = true or fp.debito = true) and cp.datos_bancarios = 'Ni confío ni desconfío'
-group by cp.datos_bancarios , co.frecuencia_compras ;
-
-create view vista_4_complemento_3 as 
+create view vista_4_complemento as
 select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
 from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
-where (fp.credito = true or fp.debito = true) and cp.datos_bancarios = 'Desconfío'
+where fp.credito = true or fp.debito = true
 group by cp.datos_bancarios , co.frecuencia_compras ;
 
 --impacto redes sociales
