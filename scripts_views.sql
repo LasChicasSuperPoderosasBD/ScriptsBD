@@ -21,7 +21,7 @@ create view vista_3 as
 select e.valoracion_priv_ef, rs.contenido_sin_vigilancia as atencion_personalizada, co.publicidad_personalizada , c.vigilancia as molesta_vigilancia , e.genero , count(c.vigilancia)
 from encuestado e join redes_sociales rs on e.id_encuestado = rs.id_encuestado join compras_online co on co.id_encuestado = e.id_encuestado join conclusion c on e.id_encuestado = c.id_encuestado 
 group by e.valoracion_priv_ef, c.vigilancia,  rs.contenido_sin_vigilancia, co.publicidad_personalizada, e.genero ;
---desglosar en genero
+
 
 --datos bancarios
 create view vista_4_confianza as select cp.datos_bancarios , count(cp.datos_bancarios)
