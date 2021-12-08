@@ -33,7 +33,7 @@ Esta tabla nos muestra la actitud en la red de los ecuenstados al final de la ev
 ### Respuesta a...
 Estas vistas nos permiten saber si la actitud del encuestado frente a los problemas de ciberseguridad cambió luego de responder la encuesta.
 
-## View 3: Eficiencia vs Privacidad
+## View 3: Eficiencia vs Privacidad (en construcción)
 ### Código:
 create view vista_3 as select e.valoracion_priv_ef, rs.contenido_sin_vigilancia as atencion_personalizada, co.publicidad_personalizada , c.vigilancia as molesta_vigilancia , count(c.vigilancia)
 from encuestado e join redes_sociales rs on e.id_encuestado = rs.id_encuestado join compras_online co on co.id_encuestado = e.id_encuestado join conclusion c on e.id_encuestado = c.id_encuestado 
@@ -43,12 +43,28 @@ Esta es la vista más complicada y lo que busca es hacer referencias cruzadas en
 ### Respuesta a...
 Con esta vista buscamos la coherencia o discrepancias que puedan llegar a tener los encuestados en relación con los temas de valoración entre privacidad y eficiencia de la tecnología que usan.
 
-## View 4: Datos bancarios
-### Código:
-create view vista_4 as select cp.datos_bancarios , count(cp.datos_bancarios)
+## View 4: Datos bancarios (en construcción)
+### Código 1:
+create view vista_4_confianza as select cp.datos_bancarios , count(cp.datos_bancarios)
 from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
 where fp.credito = true or fp.debito = true
-group by cp.datos_bancarios;
+group by cp.datos_bancarios ;
+### Código 2:
+create view vista_4_complemento_1 as select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
+from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
+where (fp.credito = true or fp.debito = true) and cp.datos_bancarios = 'Confío'
+group by cp.datos_bancarios , co.frecuencia_compras ;
+### Código 3:
+create view vista_4_complemento_2 as select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
+from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
+where (fp.credito = true or fp.debito = true) and cp.datos_bancarios = 'Ni confío ni desconfío'
+group by cp.datos_bancarios , co.frecuencia_compras ;
+### Código 4:
+create view vista_4_complemento_3 as 
+select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
+from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
+where (fp.credito = true or fp.debito = true) and cp.datos_bancarios = 'Desconfío'
+group by cp.datos_bancarios , co.frecuencia_compras ;
 ### Explicación:
 Filtramos las respuestas de los encuestados que pagan sus compras en línea con tarjetas de débito o crédito para luego saber si confían en los sitios en los cuáles ingresan su información bancaria.
 ### Respuesta a...
@@ -68,32 +84,45 @@ Esta vista intenta saber si es que el impacto que los usuarios perciben que las 
 ### Código:
 create view vista_6 as select rs.contenido_observado as ver_sin_ser_visto, count(rs.contenido_observado) 
 from redes_sociales rs 
-group by rs.contenido_observado; 
+group by rs.contenido_observado
 ### Explicación y respuesta:
 Esta es la vista más sencilla y solo busca saber cuántas personas quisieran ver contenido en línea sin ser vigilados por nadie.
 
 ## View 7: Moralidad
-### Código:
-create view vista_7 as
-with ext_1 as 
-(select count(empleador) as empleador 
+### Código 1:
+create view vista_7_1 as
+select count(empleador) as empleador 
 from uso_stalkeo us 
-where empleador = true),
-ext_2 as 
-(select count(producto) as producto 
-from uso_stalkeo us 
-where producto = true),
-ext_3 as 
-(select count(nunca) as nunca 
-from uso_stalkeo us 
-where nunca = true),
-ext_4 as 
-(select count(persona) as persona 
-from uso_stalkeo us 
-where persona = true),
-ext_5 as (select count(e.id_encuestado) as total from encuestado e)
-select * from ext_1, ext_2, ext_3, ext_4, ext_5;
+group by us.empleador ;
 ### Explicación:
-Ya que la tabla uso_stalkeo contiene una matriz de booleanos, el análisis de dicha tabla es mejor ejecutarlo desde tablas de expresiones comunes para encontrar las situaciones en las que los encuestados piensan que se debería de poder "stalkear" a otras personas.
+Esta vista nos muestra si el encuestado considera moralmente correcto "stalkear" a una persona para ser contratada en una empresa.
+### Código 2:
+create view vista_7_2 as
+select count(producto) as producto 
+from uso_stalkeo us 
+group by us.producto ;
+### Explicación:
+Esta vista nos muestra si el encuestado considera moralmente correcto "stalkear" a una persona para la venta de productos.
+### Código 3:
+create view vista_7_3 as
+select count(escuela) as escuela 
+from uso_stalkeo us 
+group by us.escuela ;
+### Explicación:
+Esta vista nos muestra si el encuestado considera moralmente correcto "stalkear" a una persona para la admisión de esta a una institución.
+### Código 4:
+create view vista_7_4 as
+select count(persona) as persona 
+from uso_stalkeo us 
+group by us.producto ;
+### Explicación:
+Esta vista nos muestra si el encuestado considera moralmente correcto "stalkear" a una persona.
+### Código 5:
+create view vista_7_5 as
+select count(nunca) as nunca 
+from uso_stalkeo us 
+group by us.nunca ;
+### Explicación:
+Esta vista nos muestra si el encuestado considera moralmente incorrecto "stalkear" a una persona.
 ### Respuesta a...
-Esta vista es una respuesta hacia la moralidad del uso de redes sociales y la información pública que ahí se encuentra.
+Estas vistas son una respuesta hacia la moralidad del uso de redes sociales y la información pública que ahí se encuentra.
