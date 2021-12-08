@@ -79,7 +79,7 @@ create view vista_6 as select rs.contenido_observado as ver_sin_ser_visto, count
 from redes_sociales rs 
 group by rs.contenido_observado; 
 ### Explicación:
-
+Esta vista nos explica sobre a cuantas personas les gusta ser obsersevadas mientras navegan por internet.
 ### Código 2
 create view vista_6_complemento as
 select e.valoracion_priv_ef , count(e.valoracion_priv_ef) 
@@ -87,8 +87,9 @@ from redes_sociales rs join encuestado e on e.id_encuestado = rs.id_encuestado
 where rs.contenido_observado = 'No'
 group by e.valoracion_priv_ef;
 ### Explicación:
+Esta vista nos muestra el conteo total de las personas sobre si prefieren eficiencia, privacidad o un balance mientras navegan por internet. 
 ### Respuesta a...
-
+Esta sección nos muestra la relación que hay entre las personas que prefieren la eficiencia, balance o privacidad mientras navegan (pregunta que hacemos al principio de la encuesta) contra el total de personas que les importa ser vigilados mientras navegas por internet (pregunta que hacemos en la sección 2).
 ## View 7: Moralidad
 ### Código 1:
 create view vista_7_1 as
