@@ -74,12 +74,20 @@ Buscamos saber el impacto que tienen las redes sociales entre las vidas de los e
 Esta vista intenta saber si es que el impacto que los usuarios perciben que las redes sociales varía dependiendo de su género.
 
 ## View 6: Deseo de ver contenido sin ser vigilado
-### Código:
+### Código1:
 create view vista_6 as select rs.contenido_observado as ver_sin_ser_visto, count(rs.contenido_observado) 
 from redes_sociales rs 
-group by rs.contenido_observado
-### Explicación y respuesta:
-Esta es la vista más sencilla y solo busca saber cuántas personas quisieran ver contenido en línea sin ser vigilados por nadie.
+group by rs.contenido_observado; 
+### Explicación:
+
+### Código 2
+create view vista_6_complemento as
+select e.valoracion_priv_ef , count(e.valoracion_priv_ef) 
+from redes_sociales rs join encuestado e on e.id_encuestado = rs.id_encuestado 
+where rs.contenido_observado = 'No'
+group by e.valoracion_priv_ef;
+### Explicación:
+### Respuesta a...
 
 ## View 7: Moralidad
 ### Código 1:
