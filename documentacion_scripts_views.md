@@ -126,3 +126,21 @@ group by us.nunca ;
 Esta vista nos muestra si el encuestado considera moralmente incorrecto "stalkear" a una persona.
 ### Respuesta a...
 Estas vistas son una respuesta hacia la moralidad del uso de redes sociales y la información pública que ahí se encuentra.
+
+## View Extra: Perspectivas de Genero
+### Código 1: tiempo en redes por género
+create view vista_extra_1 as 
+select e.genero , rs.tiempo_redes , count(e.genero) 
+from encuestado e join redes_sociales rs on rs.id_encuestado = e.id_encuestado 
+group by e.genero , rs.tiempo_redes ;
+### Explicación:
+Esta vista nos muestra si el tiempo en redes sociales varia de manera considerable por género.
+### Código 2: frecuencia de compras por género
+select e.genero ,co.frecuencia_compras  , count(e.genero) 
+from encuestado e join compras_online co on co.id_encuestado = e.id_encuestado 
+where not co.frecuencia_compras = '-'
+group by e.genero , co.frecuencia_compras ;
+### Explicación:
+Esta vista nos muestra si la frecuencia de compras de una persona cambia dependiendo del género.
+### Respuesta a...
+Estas vistas nos ayudan a encontrar posibles diferencias en términos de género y el uso de redes sociales y compras en línea.
