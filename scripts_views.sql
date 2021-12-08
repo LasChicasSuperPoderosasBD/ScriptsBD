@@ -45,6 +45,12 @@ create view vista_6 as select rs.contenido_observado as ver_sin_ser_visto, count
 from redes_sociales rs 
 group by rs.contenido_observado;  
 
+create view vista_6_complemento as
+select e.valoracion_priv_ef , count(e.valoracion_priv_ef) 
+from redes_sociales rs join encuestado e on e.id_encuestado = rs.id_encuestado 
+where rs.contenido_observado = 'No'
+group by e.valoracion_priv_ef; 
+
 --no tenemos moralidad jaja
 create view vista_7_1 as
 select count(empleador) as empleador 
