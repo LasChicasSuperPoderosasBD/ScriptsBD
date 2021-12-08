@@ -33,40 +33,33 @@ Esta tabla nos muestra la actitud en la red de los ecuenstados al final de la ev
 ### Respuesta a...
 Estas vistas nos permiten saber si la actitud del encuestado frente a los problemas de ciberseguridad cambió luego de responder la encuesta.
 
-## View 3: Eficiencia vs Privacidad (en construcción)
+## View 3: Eficiencia vs Privacidad 
 ### Código:
-create view vista_3 as select e.valoracion_priv_ef, rs.contenido_sin_vigilancia as atencion_personalizada, co.publicidad_personalizada , c.vigilancia as molesta_vigilancia , count(c.vigilancia)
+create view vista_3 as 
+select e.valoracion_priv_ef, rs.contenido_sin_vigilancia as atencion_personalizada, co.publicidad_personalizada , c.vigilancia as molesta_vigilancia , e.genero , count(c.vigilancia)
 from encuestado e join redes_sociales rs on e.id_encuestado = rs.id_encuestado join compras_online co on co.id_encuestado = e.id_encuestado join conclusion c on e.id_encuestado = c.id_encuestado 
-group by e.valoracion_priv_ef, c.vigilancia,  rs.contenido_sin_vigilancia, co.publicidad_personalizada;
+group by e.valoracion_priv_ef, c.vigilancia,  rs.contenido_sin_vigilancia, co.publicidad_personalizada, e.genero ;
 ### Explicación:
-Esta es la vista más complicada y lo que busca es hacer referencias cruzadas entre incisos que en esencia son la misma pregunta pero en diferentes aspectos de la vida digital del encuestado.
+Esta es la vista más complicada y lo que busca es hacer referencias cruzadas entre incisos que en esencia son la misma pregunta pero en diferentes aspectos de la vida digital del encuestado, tomando en cuenta la perspectiva de género y cómo el género influye en nuestras respuestas.
 ### Respuesta a...
-Con esta vista buscamos la coherencia o discrepancias que puedan llegar a tener los encuestados en relación con los temas de valoración entre privacidad y eficiencia de la tecnología que usan.
+Con esta vista buscamos la coherencia o discrepancias que puedan llegar a tener los encuestados en relación con los temas de valoración entre género, privacidad y eficiencia de la tecnología que usan.
 
-## View 4: Datos bancarios (en construcción)
+## View 4: Datos bancarios
 ### Código 1:
 create view vista_4_confianza as select cp.datos_bancarios , count(cp.datos_bancarios)
 from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
 where fp.credito = true or fp.debito = true
 group by cp.datos_bancarios ;
-### Código 2:
-create view vista_4_complemento_1 as select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
-from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
-where (fp.credito = true or fp.debito = true) and cp.datos_bancarios = 'Confío'
-group by cp.datos_bancarios , co.frecuencia_compras ;
-### Código 3:
-create view vista_4_complemento_2 as select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
-from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
-where (fp.credito = true or fp.debito = true) and cp.datos_bancarios = 'Ni confío ni desconfío'
-group by cp.datos_bancarios , co.frecuencia_compras ;
-### Código 4:
-create view vista_4_complemento_3 as 
-select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
-from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
-where (fp.credito = true or fp.debito = true) and cp.datos_bancarios = 'Desconfío'
-group by cp.datos_bancarios , co.frecuencia_compras ;
 ### Explicación:
 Filtramos las respuestas de los encuestados que pagan sus compras en línea con tarjetas de débito o crédito para luego saber si confían en los sitios en los cuáles ingresan su información bancaria.
+### Código 2:
+create view vista_4_complemento as
+select cp.datos_bancarios , co.frecuencia_compras, count(cp.datos_bancarios)
+from compras_online co join confianza_paginas cp on cp.id_confianza_paginas = co.id_confianza_paginas join forma_pago fp on fp.id_forma_pago = co.id_forma_pago 
+where fp.credito = true or fp.debito = true
+group by cp.datos_bancarios , co.frecuencia_compras 
+### Explicación:
+Esta vista nos ayuda a ver la frecuencia de compras del usuario además de analizar si estos confian sus datos bancarios en las páginas de compras en línea.
 ### Respuesta a...
 Buscamos saber si las personas confían en los sitios a los que les otorgan sus datos bancarios.
 
